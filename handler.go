@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"os"
 )
 
@@ -12,7 +13,7 @@ func main() {
 
 	switch command {
 	case 1:
-		fmt.Println("Monitoring ...")
+		startMonitor()
 	case 2:
 		fmt.Println("Logging ...")
 	case 0:
@@ -44,4 +45,12 @@ func showMenu() {
 	fmt.Println("1- Monitoring Start")
 	fmt.Println("2- Show Logs")
 	fmt.Println("0- Exit")
+}
+
+func startMonitor() {
+	fmt.Println("Monitoring ...")
+	site := "https://banco-questoes-api-es-development.p4ed.com/"
+
+	resp, _ := http.Get(site)
+	fmt.Println(resp)
 }
