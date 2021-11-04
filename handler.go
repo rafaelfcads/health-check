@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 )
@@ -61,7 +63,13 @@ func startMonitor() {
 
 func validateSite(site string) {
 	const statusCodeSuccess = 200
-	resp, _ := http.Get(site)
+
+	resp, err := http.Get(site)
+
+	if err != nil {
+		fmt.Println("Err", err)
+	}
+
 	fmt.Println(resp)
 
 	if resp.StatusCode == statusCodeSuccess {
@@ -70,9 +78,29 @@ func validateSite(site string) {
 }
 
 func readFile() []string {
-	file, _ := os.Open("sites.txt")
 
-	fmt.Println("File", file)
+	// file, err := ioutil.ReadFile("sites.txt")
+
+	file, err := os.Open("sites.txt")
+
+	if err != nil {
+		fmt.Println("Err", err)
+	}
+
+	read := bufio.NewReader(file)
+
+	for {
+
+		line, err := read.ReadString('\n')
+
+		fmt.Println("Line: ", line)
+
+		if err == io.EOF {
+			break
+		}
+
+		fmt.Println("Line: ", line)
+	}
 
 	var sites []string
 	return sites
