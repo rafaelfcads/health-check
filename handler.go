@@ -49,8 +49,10 @@ func showMenu() {
 
 func startMonitor() {
 	fmt.Println("Monitoring ...")
-	site := "https://banco-questoes-api-es-development.p4ed.com/"
-	sites := []string{site}
+	// site := "https://banco-questoes-api-es-development.p4ed.com/"
+	// sites := []string{site}
+
+	sites := readFile()
 
 	for _, site := range sites {
 		validateSite(site)
@@ -58,10 +60,20 @@ func startMonitor() {
 }
 
 func validateSite(site string) {
+	const statusCodeSuccess = 200
 	resp, _ := http.Get(site)
 	fmt.Println(resp)
 
-	if resp.StatusCode == 200 {
+	if resp.StatusCode == statusCodeSuccess {
 		fmt.Println("Api successfully loaded. Status ", resp.StatusCode)
 	}
+}
+
+func readFile() []string {
+	file, _ := os.Open("sites.txt")
+
+	fmt.Println("File", file)
+
+	var sites []string
+	return sites
 }
