@@ -14,4 +14,10 @@ func main() {
 	fmt.Println("1- Monitoring Start")
 	fmt.Println("2- Show Logs")
 	fmt.Println("0- Exit")
+
+	var command int
+
+	fmt.Scan(&command)
+
+	fmt.Println("The command selected was ", command)
 }
