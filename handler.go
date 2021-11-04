@@ -50,7 +50,10 @@ func showMenu() {
 func startMonitor() {
 	fmt.Println("Monitoring ...")
 	site := "https://banco-questoes-api-es-development.p4ed.com/"
-
 	resp, _ := http.Get(site)
 	fmt.Println(resp)
+
+	if resp.StatusCode == 200 {
+		fmt.Println("Api successfully loaded. Status ", resp.StatusCode)
+	}
 }
