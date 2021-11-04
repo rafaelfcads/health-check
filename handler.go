@@ -50,6 +50,14 @@ func showMenu() {
 func startMonitor() {
 	fmt.Println("Monitoring ...")
 	site := "https://banco-questoes-api-es-development.p4ed.com/"
+	sites := []string{site}
+
+	for _, site := range sites {
+		validateSite(site)
+	}
+}
+
+func validateSite(site string) {
 	resp, _ := http.Get(site)
 	fmt.Println(resp)
 
