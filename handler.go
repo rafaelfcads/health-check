@@ -8,6 +8,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func main() {
@@ -19,7 +20,7 @@ func main() {
 	case 1:
 		startMonitor()
 	case 2:
-		fmt.Println("Logging ...")
+		showLog()
 	case 0:
 		fmt.Println("Exiting ...")
 		os.Exit(0)
@@ -121,9 +122,13 @@ func registreLog(site string, status int) {
 		fmt.Println("Err", err)
 	}
 
-	file.WriteString(site + strconv.Itoa(status) + "\n")
+	file.WriteString(time.Now().Format("02/01/2006 15:04:05") + site + strconv.Itoa(status) + "\n")
 
 	fmt.Println(file)
 
 	file.Close()
+}
+
+func showLog() {
+
 }
