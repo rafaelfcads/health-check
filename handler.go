@@ -6,6 +6,8 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"strconv"
+	"strings"
 )
 
 func main() {
@@ -73,12 +75,16 @@ func validateSite(site string) {
 	fmt.Println(resp)
 
 	if resp.StatusCode == statusCodeSuccess {
+		registreLog(site, resp.StatusCode)
 		fmt.Println("Api successfully loaded. Status ", resp.StatusCode)
+		return
 	}
+
+	registreLog(site, resp.StatusCode)
 }
 
 func readFile() []string {
-
+	var sites []string
 	// file, err := ioutil.ReadFile("sites.txt")
 
 	file, err := os.Open("sites.txt")
@@ -92,7 +98,8 @@ func readFile() []string {
 	for {
 
 		line, err := read.ReadString('\n')
-
+		line = strings.TrimSpace(line)
+		sites = append(sites, line)
 		fmt.Println("Line: ", line)
 
 		if err == io.EOF {
@@ -102,6 +109,21 @@ func readFile() []string {
 		fmt.Println("Line: ", line)
 	}
 
-	var sites []string
+	file.Close()
+
 	return sites
+}
+
+func registreLog(site string, status int) {
+	file, err := os.OpenFile("log.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+
+	if err != nil {
+		fmt.Println("Err", err)
+	}
+
+	file.WriteString(site + strconv.Itoa(status) + "\n")
+
+	fmt.Println(file)
+
+	file.Close()
 }
